@@ -6,6 +6,8 @@ var query = new modelo();
 
 // Parser para application/x-www-form-urlencoded
 var parserForm = bodyParser.urlencoded({extended: false}); 
+// Parser para application/json
+var parserJson = bodyParser.json({});
 
 rota.get('/login/:email-:senha', function(req, res){
     // Logar usuario
@@ -23,8 +25,10 @@ rota.get('/login/:email-:senha', function(req, res){
     });
 });
 
-rota.post('/cadastrar', parserForm, function(req, res){
+rota.post('/cadastrar', parserJson, function(req, res){
     // Inserir novo cliente no banco
+    console.log(req.body);
+
     var cliente = {
         email: req.body.email,
         senha: req.body.senha,
@@ -36,8 +40,7 @@ rota.post('/cadastrar', parserForm, function(req, res){
     console.log(cliente);
 
     query.insert(cliente);
-    res.status(200).send('Cliente inserido na base');
-
+    res.sendStatus(200);
 });
 
 module.exports = rota;

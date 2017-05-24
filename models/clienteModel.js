@@ -44,7 +44,7 @@ modeloCliente.prototype.insert = function(args){
                     });
     });
 
-    banco.close();
+    //banco.close();
 }
 
 module.exports = modeloCliente; // torna o prototype com as funcoes possivel de ser importado 
