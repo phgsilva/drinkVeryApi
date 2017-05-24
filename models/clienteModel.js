@@ -23,14 +23,16 @@ modeloCliente.prototype.login = function(args, callback){
 modeloCliente.prototype.select = function(args, callback){
     var sql = 'SELECT Identificador, Email, Senha, Nome, SobreNome, CPF FROM CLIENTE;'
     banco.all(sql, {}, function(err, rows){
+        console.log('erro: ' + err);
         if(rows != undefined && rows.length > 0){
+            console.log('resultado: ' + rows);
             callback(rows);
         }
         else
             callback(0);
     });
 
-    banco.close();
+    //banco.close();
 }
 
 modeloCliente.prototype.insert = function(args){

@@ -7,7 +7,6 @@ var query = new modelo();
 // Parser para application/x-www-form-urlencoded
 var parserForm = bodyParser.urlencoded({extended: false}); 
 
-
 rota.get('/login/:email-:senha', function(req, res){
     // Logar usuario
     var argumentos = {
@@ -18,7 +17,7 @@ rota.get('/login/:email-:senha', function(req, res){
     query.login(argumentos, function(result){
         console.log(result);
         if(result != 0)
-            res.status(500).json(result);
+            res.status(200).json(result);
         else
             res.status(500).json({}); // Se não encontrar usuario retonar status 500 e json vazio
     });
