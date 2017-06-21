@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
-var cliente = require('./controllers/cliente')
+var cliente = require('./controllers/cliente');
+var fornecedor = require('./controllers/fornecedor');
+var pedido = require('./controllers/pedido');
 
 // Habilita o CORS para aplicação
 app.use(function(req, res, next){
@@ -12,6 +14,8 @@ app.use(function(req, res, next){
 });
 
 app.use('/cliente', cliente);
+app.use('/forncedor', fornecedor);
+app.use('/pedido', pedido);
 
 app.get('/', function(req, res){
     res.send('Hello World! Eu sou api do drinkEvery!');

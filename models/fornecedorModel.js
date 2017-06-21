@@ -3,7 +3,7 @@ var banco = new sqlite.Database('C:/ProjetosNode/DrinkEveryApi/drinkEveryBd.db')
 
 var modeloFornecedor = function () {}; // cria um prototype
 
-modeloFornecedor.prototype.buscarFornecedor = function(args, callback){
+modeloFornecedor.prototype.selectFornecedor = function(args, callback){
     var sql = "SELECT Identificador, Descricao, Endereco FROM fornecedor";
 
     banco.all(sql, {}, function(err, rows){
