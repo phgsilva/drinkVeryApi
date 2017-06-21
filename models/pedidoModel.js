@@ -4,30 +4,38 @@ var banco = new sqlite.Database('C:/ProjetosNode/DrinkEveryApi/drinkEveryBd.db')
 var modeloPedido = function () {}; // cria um prototype
 
 modeloPedido.prototype.insert = function(args){
+    var idPedidoInserido = 0; 
     // Inserir pedido...
-    var sqlPedido = "";
+    var sqlPedido = "INSERT INTO PEDIDO (Id_Cliente, Data, Hora, Situacao, TotalPedido, Id_Fornecedor) VALUES ($id_cliente, $data, $hora, $situacao, $totalPedido, $id_fornecedor)";
     // Depois inserir itens do pedido...
-    var sqlItensPedido = "";
+    var sqlItensPedido = "INSERT INTO ITEM_PEDIDO (Preco_Itens, Quantidade_Total, Id_Produto, Id_Pedido, Id_Fornecedor) VALUES ($preco_itens, $quantidade_total, $id_produto, $id_pedido, $id_fornecedor)";
 
     // Serão dois run
     banco.serialize(function(args){
-        banco.run(sqlPedido, {}, function(error){
-                            console.log(error);
-                            return;
-                        });
+        banco.run(sqlPedido, { $id_cliente: args.id_cliente, $data: args.data, $hora: args.hora, $situacao: args.situacao, $totalPedido, $id_fornecedor: args.id_fornecedor }, 
+                function(error){
+                    if(error)
+                        console.log(error);
+                    else
+                        idPedidoInserido = this.lastID
+                });
 
-        banco.run(sqlItensPedido,
-                    {}, function(error){
-                            console.log(error);
-                            return;
-                        });
+        if(idPedidoInserido != 0){
+            for (var i = 0; i < args.itensPedido.length; i++){
+                banco.run(sqlItensPedido, {$preco_itens: args.itensPedido[i].precoItens, $quantidade_total: args.itensPedido[i].qtdTotal, $id_produto: args.itensPedido[i].idProduto, $id_pedido: idPedidoInserido, $id_fornecedor: args.itensPedido[i].idFornecedor}, 
+                        function(error){
+                            if(error)
+                                console.log(error);
+                });
+            }
+        }
     });
 }
 
-modeloPedido.prototype.select = function(args, callback){
-    var sql = "";
+modeloPedido.prototype.selectPorCliente = function(args, callback){
+    var sql = "SELECT P.Data, P.Hora, P.Situacao, P.TotalPedido, F.Descricao FROM pedido P INNER JOIN FORNECEDOR F ON P.Id_Fornecedor = F.Identificador WHERE P.Id_Cliente = $id_cliente ";
 
-    banco.all(sql, {$id_fornecedor: args.idFonecedor}, function(err, rows){
+    banco.all(sql, {$id_cliente: args.idCliente}, function(err, rows){
         if(rows != undefined && rows.length > 0){
             callback(rows);
         }
@@ -35,3 +43,17 @@ modeloPedido.prototype.select = function(args, callback){
             callback(0);
     });
 }
+
+modeloPedido.prototype.selectPorFornecedor = function(args, callback){
+    var sql = "SELECT P.Data, P.Hora, P.Situacao, P.TotalPedido, F.Descricao FROM pedido P INNER JOIN FORNECEDOR F ON P.Id_Fornecedor = F.Identificador WHERE P.Id_Forncedor = $id_forncedor";
+
+    banco.all(sql, {$id_fornecedor: args.idFornecedor}, function(err, rows){
+        if(rows != undefined && rows.length > 0){
+            callback(rows);
+        }
+        else
+            callback(0);
+    });
+}
+
+module.exports = modeloPedido; // torna o prototype com as funcoes possivel de ser importado 

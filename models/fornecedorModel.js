@@ -16,10 +16,10 @@ modeloFornecedor.prototype.buscarFornecedor = function(args, callback){
 }
 
 modeloFornecedor.prototype.insert = function(args){
-    var sql = "";
+    var sql = "INSERT INTO fornecedor (Email, Senha, Cnpj, Endereco, Descricao) VALUES ($email, $senha, $cnpj, $endereco, $descricao)";
     
     banco.serialize(function(){
-        banco.run(sql, {},
+        banco.run(sql, { email: args.email, senha: args.senha, cnpj: args.cnpj, endereco: args.endereco, descricao: args.descricao },
             function(error){
                 console.log(error);
             });

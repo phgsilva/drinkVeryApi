@@ -22,6 +22,7 @@ modeloCliente.prototype.login = function(args, callback){
 
 modeloCliente.prototype.select = function(args, callback){
     var sql = 'SELECT Identificador, Email, Senha, Nome, SobreNome, CPF FROM CLIENTE;'
+    
     banco.all(sql, {}, function(err, rows){
         console.log('erro: ' + err);
         if(rows != undefined && rows.length > 0){
@@ -38,10 +39,10 @@ modeloCliente.prototype.select = function(args, callback){
 modeloCliente.prototype.insert = function(args){
     banco.serialize(function(){
         banco.run("insert into CLIENTE (Email, Senha, Nome, SobreNome, CPF) values ($email, $senha, $nome, $sobreNome, $cpf)",
-                    {$email: args.email, $senha: args.senha, $nome: args.nome, $sobreNome: args.sobrenome, $cpf: args.cpf},
-                    function(error){
+                { $email: args.email, $senha: args.senha, $nome: args.nome, $sobreNome: args.sobrenome, $cpf: args.cpf },
+                function(error){
                         console.log(error);
-                    });
+                });
     });
 
     //banco.close();
