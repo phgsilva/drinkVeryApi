@@ -7,3 +7,44 @@ var query = new modeloPedido();
 var parserForm = bodyParser.urlencoded({extended: false}); 
 // Parser para application/json
 var parserJson = bodyParser.json({});
+
+
+rota.post('/cadastrar', '/cadastrar', parserJson, function(req, res){
+    var pedido = {
+        id_cliente: req.body.id_cliente, 
+        data: req.body.data, 
+        hora: req.body.hora, 
+        situacao: req.body.situacao, 
+        totalPedido: req.body.totalPedido, 
+        id_fornecedor: req.body.id_fornecedor,
+        itensPedido = req.body.itens_pedido
+    }
+
+    query.insert(pedido);
+    
+    res.end();
+});
+
+rota.get('/buscar/cliente/:id_cliente', function(req, res){
+    var argumento = { id_cliente: req.params.id_cliente };
+
+    query.selectPorCliente(argumento, function(result){
+        if(result != 0)
+            res.status(200).json(result);
+        else
+            res.status(500).json({});
+    });
+});
+
+rota.get('/buscar/fornecedor/:id_forncecedor', function(req, res){
+    var argumento = { id_forncecedor: req.params.id_forncecedor };
+
+    query.selectPorFornecedor(argumento, function(result){
+        if(result != 0)
+            res.status(200).json(result);
+        else
+            res.status(500).json({});
+    });
+});
+
+module.exports = rota;

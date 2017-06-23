@@ -14,7 +14,7 @@ rota.post('/cadastrar', parserJson, function(req, res){
         senha: req.body.senha,
         cnpj: req.body.cnpj,
         endereco: req.body.endereco,
-        descricao: req.body.descricao
+        descricao: req.body.descricao,
     }
 
     query.insert(fornecedor);
@@ -43,6 +43,4 @@ rota.get('/buscar_produtos/:idFornecedor', function(req, res){
 
 });
 
-
-
-
+module.exports = rota;
