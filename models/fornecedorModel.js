@@ -4,7 +4,7 @@ var banco = new sqlite.Database('C:/ProjetosNode/DrinkEveryApi/drinkEveryBd.db')
 var modeloFornecedor = function () {}; // cria um prototype
 
 modeloFornecedor.prototype.login = function(args, callback){
-    var sql = 'SELECT Identificador, Descricao, Endereco FROM fornecedor WHERE Email = $email AND Senha = $senha LIMIT 1;'
+    var sql = 'SELECT Identificador, Descricao, Endereco, Email FROM fornecedor WHERE Email = $email AND Senha = $senha LIMIT 1;'
     
     console.log(sql);
     console.log(args);
