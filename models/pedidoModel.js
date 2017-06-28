@@ -10,25 +10,31 @@ modeloPedido.prototype.insert = function(args){
     // Depois inserir itens do pedido...
     var sqlItensPedido = "INSERT INTO ITEM_PEDIDO (Preco_Itens, Quantidade_Total, Id_Produto, Id_Pedido, Id_Fornecedor) VALUES ($preco_itens, $quantidade_total, $id_produto, $id_pedido, $id_fornecedor)";
 
-    // Serão dois run
-    banco.serialize(function(args){
-        banco.run(sqlPedido, { $id_cliente: args.id_cliente, $data: args.data, $hora: args.hora, $situacao: args.situacao, $totalPedido, $id_fornecedor: args.id_fornecedor }, 
-                function(error){
-                    if(error)
-                        console.log(error);
-                    else
-                        idPedidoInserido = this.lastID
-                });
+    console.log(args);
 
-        if(idPedidoInserido != 0){
-            for (var i = 0; i < args.itensPedido.length; i++){
-                banco.run(sqlItensPedido, {$preco_itens: args.itensPedido[i].precoItens, $quantidade_total: args.itensPedido[i].qtdTotal, $id_produto: args.itensPedido[i].idProduto, $id_pedido: idPedidoInserido, $id_fornecedor: args.itensPedido[i].idFornecedor}, 
-                        function(error){
-                            if(error)
-                                console.log(error);
+    // Serão dois run
+    banco.serialize(function(){
+        banco.run(sqlPedido, { $id_cliente: args.id_cliente, $data: args.data, $hora: args.hora, $situacao: args.situacao, $totalPedido: args.totalPedido, $id_fornecedor: args.id_fornecedor }, 
+                function(error){
+                    if(error != undefined)
+                        console.log(error);
+                    else{
+                        console.log("LastID: " + this.lastID);
+                        idPedidoInserido = this.lastID
+                        console.log(idPedidoInserido);
+                        
+                        if(idPedidoInserido != 0){
+                            console.log(idPedidoInserido);
+                            for (var i = 0; i < args.itensPedido.length; i++){
+                                banco.run(sqlItensPedido, {$preco_itens: args.itensPedido[i].precoItens, $quantidade_total: args.itensPedido[i].qtdTotal, $id_produto: args.itensPedido[i].idProduto, $id_pedido: idPedidoInserido, $id_fornecedor: args.itensPedido[i].idFornecedor}, 
+                                    function(error){
+                                        if(error)
+                                            console.log(error);
+                                });
+                            }
+                        }
+                    }
                 });
-            }
-        }
     });
 }
 

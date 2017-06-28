@@ -17,8 +17,11 @@ rota.post('/cadastrar', parserJson, function(req, res){
         situacao: req.body.situacao, 
         totalPedido: req.body.totalPedido, 
         id_fornecedor: req.body.id_fornecedor,
-        itensPedido: req.body.itens_pedido
+        itensPedido: req.body.itensPedido
     }
+
+    console.log(req.body);
+    console.log(pedido);
 
     query.insert(pedido);
     
