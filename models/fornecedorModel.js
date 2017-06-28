@@ -3,6 +3,23 @@ var banco = new sqlite.Database('C:/ProjetosNode/DrinkEveryApi/drinkEveryBd.db')
 
 var modeloFornecedor = function () {}; // cria um prototype
 
+modeloFornecedor.prototype.login = function(args, callback){
+    var sql = 'SELECT Identificador, Descricao, Endereco FROM fornecedor WHERE Email = $email AND Senha = $senha LIMIT 1;'
+    
+    console.log(sql);
+    console.log(args);
+
+    banco.all(sql, {$email: args.email, $senha: args.senha}, function(err, rows){
+        console.log(rows);
+        console.log(err);
+        if(rows != undefined && rows.length > 0){
+            callback(rows);
+        }
+        else
+            callback(0);
+    });
+}
+
 modeloFornecedor.prototype.selectFornecedor = function(args, callback){
     var sql = "SELECT Identificador, Descricao, Endereco FROM fornecedor";
 

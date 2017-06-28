@@ -8,6 +8,21 @@ var parserForm = bodyParser.urlencoded({extended: false});
 // Parser para application/json
 var parserJson = bodyParser.json({});
 
+rota.get('/login/:email-:senha', function(req, res){
+    // Logar usuario
+    var argumentos = {
+        email: req.params.email,
+        senha: req.params.senha
+    };
+    
+    query.login(argumentos, function(result){
+        if(result != 0)
+            res.status(200).json(result);
+        else
+            res.status(500).json({}); // Se não encontrar usuario retonar status 500 e json vazio
+    });
+});
+
 rota.post('/cadastrar', parserJson, function(req, res){
     var fornecedor = {
         email: req.body.email,

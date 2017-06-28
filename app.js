@@ -14,7 +14,7 @@ app.use(function(req, res, next){
 });
 
 app.use('/cliente', cliente);
-app.use('/forncedor', fornecedor);
+app.use('/fornecedor', fornecedor);
 app.use('/pedido', pedido);
 
 app.get('/', function(req, res){
