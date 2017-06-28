@@ -17,13 +17,15 @@ rota.post('/cadastrar', parserJson, function(req, res){
         descricao: req.body.descricao,
     }
 
+    console.log(fornecedor);
+
     query.insert(fornecedor);
     
     res.end();
 });
 
 rota.get('/buscar', function(req, res){
-    query.select({}, function(result){
+    query.selectFornecedor({}, function(result){
         if(result != 0)
             res.status(200).json(result);
         else

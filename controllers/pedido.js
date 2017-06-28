@@ -9,7 +9,7 @@ var parserForm = bodyParser.urlencoded({extended: false});
 var parserJson = bodyParser.json({});
 
 
-rota.post('/cadastrar', '/cadastrar', parserJson, function(req, res){
+rota.post('/cadastrar', parserJson, function(req, res){
     var pedido = {
         id_cliente: req.body.id_cliente, 
         data: req.body.data, 
@@ -17,7 +17,7 @@ rota.post('/cadastrar', '/cadastrar', parserJson, function(req, res){
         situacao: req.body.situacao, 
         totalPedido: req.body.totalPedido, 
         id_fornecedor: req.body.id_fornecedor,
-        itensPedido = req.body.itens_pedido
+        itensPedido: req.body.itens_pedido
     }
 
     query.insert(pedido);
