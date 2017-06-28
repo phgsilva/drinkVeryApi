@@ -45,7 +45,7 @@ modeloFornecedor.prototype.insert = function(args){
 }
 
 modeloFornecedor.prototype.selectProdutos = function(args, callback){
-    var sql = "SELECT Identificador, Descricao, Marca, Preco FROM produto WHERE Id_Fornecedor = $id_fornecedor";
+    var sql = "SELECT Identificador, Descricao, Marca, Preco, Quantidade FROM produto WHERE Id_Fornecedor = $id_fornecedor";
 
     banco.all(sql, {$id_fornecedor: args.idFonecedor}, function(err, rows){
         if(rows != undefined && rows.length > 0){
