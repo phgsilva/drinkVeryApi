@@ -41,7 +41,7 @@ modeloPedido.prototype.insert = function(args){
 modeloPedido.prototype.selectPorCliente = function(args, callback){
     var sql = "SELECT P.Data, P.Hora, P.Situacao, P.TotalPedido, F.Descricao FROM pedido P INNER JOIN FORNECEDOR F ON P.Id_Fornecedor = F.Identificador WHERE P.Id_Cliente = $id_cliente ";
 
-    banco.all(sql, {$id_cliente: args.idCliente}, function(err, rows){
+    banco.all(sql, {$id_cliente: args.id_cliente}, function(err, rows){
         if(rows != undefined && rows.length > 0){
             callback(rows);
         }
@@ -51,9 +51,9 @@ modeloPedido.prototype.selectPorCliente = function(args, callback){
 }
 
 modeloPedido.prototype.selectPorFornecedor = function(args, callback){
-    var sql = "SELECT P.Data, P.Hora, P.Situacao, P.TotalPedido, F.Descricao FROM pedido P INNER JOIN FORNECEDOR F ON P.Id_Fornecedor = F.Identificador WHERE P.Id_Forncedor = $id_forncedor";
+    var sql = "SELECT P.Data, P.Hora, P.Situacao, P.TotalPedido, F.Descricao FROM pedido P INNER JOIN FORNECEDOR F ON P.Id_Fornecedor = F.Identificador WHERE P.Id_Fornecedor = $id_fornecedor";
 
-    banco.all(sql, {$id_fornecedor: args.idFornecedor}, function(err, rows){
+    banco.all(sql, {$id_fornecedor: args.id_forncecedor}, function(err, rows){
         if(rows != undefined && rows.length > 0){
             callback(rows);
         }
